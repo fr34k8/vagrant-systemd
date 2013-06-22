@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version = "0.1.0"
   s.authors = ["Benedikt Böhm"]
   s.email = ["bb@xnull.de"]
-  s.homepage = "http://github.com/systemd/vagrant-systemd"
+  s.homepage = "http://github.com/zentoo/vagrant-systemd"
   s.summary = %q{Vagrant plugin to detect and support Systemd based systems}
   s.description = %q{Vagrant plugin to detect and support Systemd based systems}
 
