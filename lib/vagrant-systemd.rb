@@ -50,12 +50,10 @@ module VagrantPlugins
       end
 
       guest_capability("systemd", "change_host_name") do
-        require_relative "cap/change_host_name"
         Cap::ChangeHostName
       end
 
       guest_capability("systemd", "configure_networks") do
-        require_relative "cap/configure_networks"
         Cap::ConfigureNetworks
       end
     end
