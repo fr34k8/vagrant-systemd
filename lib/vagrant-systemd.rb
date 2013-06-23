@@ -11,11 +11,15 @@ module VagrantPlugins
     module Cap
       class ChangeHostName
         def self.change_host_name(machine, name)
+          name = name.split('.')
+          hostname = name.shift
+          domain = name.empty? ? "local" : name.join('.')
+
           machine.communicate.tap do |comm|
             # Only do this if the hostname is not already set
-            if !comm.test("sudo hostname | grep '#{name}'")
-              comm.sudo("hostnamectl set-hostname #{name}")
-              comm.sudo("sed -i 's@^\\(127[.]0[.]0[.]1[[:space:]]\\+\\)@\\1#{name} @' /etc/hosts")
+            if !comm.test("sudo hostname | grep '#{hostname}'")
+              comm.sudo("hostnamectl set-hostname #{hostname}")
+              comm.sudo("sed -i 's@^\\(127[.]0[.]0[.]1[[:space:]]\\+\\)@\\1#{hostname}.#{domain} #{hostname} @' /etc/hosts")
             end
           end
         end
@@ -24,6 +28,8 @@ module VagrantPlugins
       class ConfigureNetworks
         def self.configure_networks(machine, networks)
           networks.each do |network|
+            # we use arch templates here, since TemplateRenderer has hardcoded
+            # paths and arch already uses systemd + netctl
             entry = TemplateRenderer.render("guests/arch/network_#{network[:type]}",
                                             :options => network)
 
