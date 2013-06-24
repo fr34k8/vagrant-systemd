@@ -1,0 +1,7 @@
+Description='A basic static ethernet connection'
+Interface=eth<%= network[:interface] %>
+Connection=ethernet
+ForceConnect=yes
+IP=static
+Address=('<%= network[:ip]%>')
+Netmask='<%= network[:netmask] %>'

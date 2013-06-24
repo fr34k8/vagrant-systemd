@@ -1,3 +1,4 @@
+require "tempfile"
 require "vagrant"
 
 module VagrantPlugins
@@ -28,14 +29,12 @@ module VagrantPlugins
       class ConfigureNetworks
         def self.configure_networks(machine, networks)
           networks.each do |network|
-            # we use arch templates here, since TemplateRenderer has hardcoded
-            # paths and arch already uses systemd + netctl
-            entry = TemplateRenderer.render("guests/arch/network_#{network[:type]}",
-                                            :options => network)
+            template_path = File.expand_path("../../templates/network_#{network[:type]}.erb", __FILE__)
+            template = File.read(template_path)
 
             temp = Tempfile.new("vagrant")
             temp.binmode
-            temp.write(entry)
+            temp.write(Erubis::Eruby.new(template, :trim => true).result(binding))
             temp.close
 
             machine.communicate.upload(temp.path, "/tmp/vagrant_network")
