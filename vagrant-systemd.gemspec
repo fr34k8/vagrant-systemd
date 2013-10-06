@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "vagrant-systemd"
-  s.version = "0.3.0"
+  s.version = "0.3.1"
   s.authors = ["Benedikt Böhm"]
   s.email = ["bb@xnull.de"]
   s.homepage = "http://github.com/zentoo/vagrant-systemd"

@@ -5,7 +5,8 @@ module VagrantPlugins
   module GuestSystemd
     class Guest < Vagrant.plugin("2", :guest)
       def detect?(machine)
-        machine.communicate.test("cat /etc/os-release")
+        machine.communicate.test("systemctl") and
+        machine.communicate.test("netctl")
       end
     end
 
